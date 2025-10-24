@@ -5,42 +5,18 @@ const App = () => {
 
   //save clicks of each button to its own state
 
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-  const [all, setAll] = useState(0)
-  const [total,setTotal] = useState(0)
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
+  //functional updater form => best solution 
+  const handleGood = () => setGood(g => g + 1);
+  const handleNeutral = () => setNeutral(n => n + 1);
+  const handleBad = () => setBad(b => b + 1);
 
-  const handleAll = () =>{
-    const updatedAll = all + 1
-    setAll(updatedAll)
-  }
-
-  const handleTotal = (props) => {
-    const updateTotal = total + props
-    setTotal(updateTotal) 
-  }
-
-  const handleGood = () => {
-    const updateGood = good + 1
-    handleAll()
-    handleTotal(1)
-    setGood(updateGood)
-  }
-  const handleNeutral = () => {
-    const updateNeutral = neutral + 1
-    handleAll()
-    handleTotal(0)
-    setNeutral(updateNeutral)
-  }
-  const handleBad = () => {
-    const updateBad = bad + 1
-    handleAll()
-    handleTotal(-1)
-    setBad(updateBad)
-  }
-
+  //calculated values, better to avoid storing unnecessary 
+  const all = good + bad + neutral;
+  const  total = good - bad; //good=1, bad=-1
 
   return (
     <div>
@@ -56,8 +32,8 @@ const App = () => {
       <p>Neutral feedbacks: {neutral}</p>
       <p>Bad feedbacks: {bad}</p>
       <p>All feedbacks: {all}</p>
-      <p>Average: {total/all} </p>
-      <p>Positive: {(good/all) * 100}%</p>
+      <p>Average: {total / all} </p>
+      <p>Positive: {(good / all) * 100}%</p>
 
 
     </div>
