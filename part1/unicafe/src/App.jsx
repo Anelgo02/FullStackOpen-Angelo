@@ -1,5 +1,12 @@
 import { useState } from "react";
 
+const StatisticsLine = ({ text, value }) => (
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
+
+)
 const Statistics = ({ good, neutral, bad }) => {
   // derived values (no extra state)
   const all = good + neutral + bad;
@@ -19,12 +26,18 @@ const Statistics = ({ good, neutral, bad }) => {
   return (
     <>
       <h2>Statistics</h2>
-      <p>Good feedbacks: {good}</p>
-      <p>Neutral feedbacks: {neutral}</p>
-      <p>Bad feedbacks: {bad}</p>
-      <p>All feedbacks: {all}</p>
-      <p>Average: {average.toFixed(2)}</p>
-      <p>Positive: {positive.toFixed(1)}%</p>
+
+      <table>
+        <tbody>
+          <StatisticsLine text="Good:" value={good} />
+          <StatisticsLine text="Neutral:" value={neutral} />
+          <StatisticsLine text="Bad:" value={bad} />
+          <StatisticsLine text="All:" value={all} />
+          <StatisticsLine text="Average:" value={average.toFixed(2)} />
+          <StatisticsLine text="Positive:" value={`${positive.toFixed(1)}%`} />
+        </tbody>
+      </table>
+
     </>
   );
 };
