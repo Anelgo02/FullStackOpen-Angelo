@@ -1,22 +1,44 @@
 import { useState } from "react";
 
+const Statistics = ({ good, neutral, bad }) => {
+  // derived values (no extra state)
+  const all = good + neutral + bad;
+  const total = good - bad; // +1 good, 0 neutral, -1 bad
+
+  if (all === 0) {
+    return (
+      <div>
+        <p>No feedback given</p>
+      </div>
+    );
+  }
+
+  const average = total / all;           // could be negative if many "bad"
+  const positive = (good / all) * 100;   // percentage
+
+  return (
+    <>
+      <h2>Statistics</h2>
+      <p>Good feedbacks: {good}</p>
+      <p>Neutral feedbacks: {neutral}</p>
+      <p>Bad feedbacks: {bad}</p>
+      <p>All feedbacks: {all}</p>
+      <p>Average: {average.toFixed(2)}</p>
+      <p>Positive: {positive.toFixed(1)}%</p>
+    </>
+  );
+};
+
 const App = () => {
-
-
-  //save clicks of each button to its own state
-
+  // save clicks of each button to its own state
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
-  //functional updater form => best solution 
+  // functional updater form (safe with batching)
   const handleGood = () => setGood(g => g + 1);
   const handleNeutral = () => setNeutral(n => n + 1);
   const handleBad = () => setBad(b => b + 1);
-
-  //calculated values, better to avoid storing unnecessary 
-  const all = good + bad + neutral;
-  const  total = good - bad; //good=1, bad=-1
 
   return (
     <div>
@@ -27,19 +49,9 @@ const App = () => {
         <button onClick={handleBad}>bad</button>
       </div>
 
-      <h1>stats</h1>
-      <p>Good feedbacks: {good}</p>
-      <p>Neutral feedbacks: {neutral}</p>
-      <p>Bad feedbacks: {bad}</p>
-      <p>All feedbacks: {all}</p>
-      <p>Average: {total / all} </p>
-      <p>Positive: {(good / all) * 100}%</p>
-
-
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
-  )
+  );
+};
 
-
-}
-
-export default App
+export default App;
